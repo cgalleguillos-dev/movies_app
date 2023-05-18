@@ -80,6 +80,7 @@ type Mutation {
   removePlaylist(id: Int!): Playlist!
   login(loginInput: LoginInput!): LoginResponse!
   refreshToken(token: String!): LoginResponse!
+  signup(signUpInput: SignUpInput!): User!
 }
 
 input CreateUserInput {
@@ -107,4 +108,10 @@ input UpdatePlaylistInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  name: String!
 }
