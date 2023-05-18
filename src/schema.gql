@@ -62,10 +62,12 @@ type LoginResponse {
 type Query {
   users: [User!]!
   usersById(id: String!): User!
+  actors: [Actor!]!
   actor(id: Int!): Actor!
   movies: [Movie!]!
-  movie(id: Int!): Movie!
+  getMovieByID(id: Int!): Movie!
   playlist(id: Int!): Playlist!
+  genres: [Genre!]!
   genre(id: Int!): Genre!
 }
 
@@ -73,18 +75,9 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
-  createActor(createActorInput: CreateActorInput!): Actor!
-  updateActor(updateActorInput: UpdateActorInput!): Actor!
-  removeActor(id: Int!): Actor!
-  createMovie(createMovieInput: CreateMovieInput!): Movie!
-  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
-  removeMovie(id: Int!): Movie!
   createPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
   updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
   removePlaylist(id: Int!): Playlist!
-  createGenre(createGenreInput: CreateGenreInput!): Genre!
-  updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
-  removeGenre(id: Int!): Genre!
   login(loginInput: LoginInput!): LoginResponse!
   refreshToken(token: String!): LoginResponse!
 }
@@ -100,45 +93,12 @@ input UpdateUserInput {
   id: String!
 }
 
-input CreateActorInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateActorInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateMovieInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateMovieInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input CreatePlaylistInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
 input UpdatePlaylistInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateGenreInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
