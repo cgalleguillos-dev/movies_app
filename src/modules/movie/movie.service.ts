@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMovieInput } from './dto/create-movie.input';
-import { UpdateMovieInput } from './dto/update-movie.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from 'src/entities';
 import { Repository } from 'typeorm';
@@ -12,23 +10,33 @@ export class MovieService {
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
   ) { }
 
-  create(createMovieInput: CreateMovieInput) {
-    return 'This action adds a new movie';
-  }
-
   async findAll() {
-    return await this.movieRepository.find();
+    return await this.movieRepository.find({
+      relations: ['genres']
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} movie`;
+  async findOne(id: number) {
+    return await this.movieRepository.findOne({
+      where: { id }
+    })
   }
 
-  update(id: number, updateMovieInput: UpdateMovieInput) {
-    return `This action updates a #${id} movie`;
+  async findGenresByMovieId(movieId: number) {
+    const movieWithGenres = await this.movieRepository
+      .createQueryBuilder('movie')
+      .leftJoinAndSelect('movie.genres', 'genre')
+      .where('movie.id = :id', { id: movieId })
+      .getOne();
+    return movieWithGenres.genres;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+  async findActorByMovieId(movieId: number) {
+    const movieWithActors = await this.movieRepository
+      .createQueryBuilder('movie')
+      .leftJoinAndSelect('movie.actors', 'actor')
+      .where('movie.id = :id', { id: movieId })
+      .getOne();
+    return movieWithActors.actors;
   }
 }
