@@ -1,12 +1,12 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ActorService } from './actor.service';
-import { Actor } from './entities/actor.entity';
+import { Actor } from 'src/entities';
 import { CreateActorInput } from './dto/create-actor.input';
 import { UpdateActorInput } from './dto/update-actor.input';
 
 @Resolver(() => Actor)
 export class ActorResolver {
-  constructor(private readonly actorService: ActorService) {}
+  constructor(private readonly actorService: ActorService) { }
 
   @Mutation(() => Actor)
   createActor(@Args('createActorInput') createActorInput: CreateActorInput) {

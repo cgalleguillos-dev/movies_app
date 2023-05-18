@@ -1,25 +1,25 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
+import { User } from 'src/entities';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
-    return this.userService.findAll();
+  @Query(() => [User], { name: 'users' })
+  async findAll() {
+    return await this.userService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => User, { name: 'usersById' })
+  findOne(@Args('id') id: string) {
     return this.userService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
+  removeUser(@Args('id') id: string) {
     return this.userService.remove(id);
   }
 }

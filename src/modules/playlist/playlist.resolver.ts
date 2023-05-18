@@ -1,12 +1,12 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { PlaylistService } from './playlist.service';
-import { Playlist } from './entities/playlist.entity';
+import { Playlist } from 'src/entities';
 import { CreatePlaylistInput } from './dto/create-playlist.input';
 import { UpdatePlaylistInput } from './dto/update-playlist.input';
 
 @Resolver(() => Playlist)
 export class PlaylistResolver {
-  constructor(private readonly playlistService: PlaylistService) {}
+  constructor(private readonly playlistService: PlaylistService) { }
 
   @Mutation(() => Playlist)
   createPlaylist(@Args('createPlaylistInput') createPlaylistInput: CreatePlaylistInput) {
