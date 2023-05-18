@@ -20,3 +20,15 @@ export class LoginResponse {
     @Field(() => User)
     user: User;
 }
+
+@InputType()
+export class SignUpInput {
+    @Field()
+    email: string;
+
+    @Field()
+    password: string;
+
+    @Field()
+    name: string;
+}

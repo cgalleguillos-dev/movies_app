@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities';
 import { Repository } from 'typeorm';
-import { LoginInput } from './dto/auth.dto';
+import { LoginInput, SignUpInput } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -41,5 +41,19 @@ export class AuthService {
             token: newToken,
             user: user
         }
+    }
+
+    async signup(signUpInput: SignUpInput): Promise<User> {
+        const userExist = await this.userRepository.findOne({
+            where: {
+                email: signUpInput.email
+            }
+        });
+        if (userExist) {
+            throw new Error('Invalid Credentials');
+        }
+        const user = this.userRepository.create(signUpInput);
+        await this.userRepository.save(user);
+        return user;
     }
 }
