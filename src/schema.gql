@@ -1,0 +1,150 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Actor {
+  id: Int!
+  adult: Boolean!
+  gender: Float!
+  known_for_department: String!
+  name: String!
+  original_name: String!
+  popularity: Float!
+  profile_path: String!
+  cast_id: Float!
+  character: String!
+  credit_id: String!
+  order: Float!
+}
+
+type Genre {
+  id: Float!
+  name: String!
+}
+
+type Movie {
+  id: Float!
+  adult: Boolean!
+  backdrop_path: String!
+  genres: [Genre!]!
+  original_language: String!
+  original_title: String!
+  overview: String!
+  popularity: Float!
+  poster_path: String!
+  release_date: String!
+  title: String!
+  video: Boolean!
+  vote_average: Float!
+  vote_count: Int!
+  actors: [Actor!]!
+}
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  password: String!
+  playlists: [Playlist!]!
+}
+
+type Playlist {
+  id: String!
+  title: String!
+  description: String!
+}
+
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  users: [User!]!
+  usersById(id: String!): User!
+  actor(id: Int!): Actor!
+  movies: [Movie!]!
+  movie(id: Int!): Movie!
+  playlist(id: Int!): Playlist!
+  genre(id: Int!): Genre!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  createActor(createActorInput: CreateActorInput!): Actor!
+  updateActor(updateActorInput: UpdateActorInput!): Actor!
+  removeActor(id: Int!): Actor!
+  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
+  removeMovie(id: Int!): Movie!
+  createPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
+  updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
+  removePlaylist(id: Int!): Playlist!
+  createGenre(createGenreInput: CreateGenreInput!): Genre!
+  updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
+  removeGenre(id: Int!): Genre!
+  login(loginInput: LoginInput!): LoginResponse!
+  refreshToken(token: String!): LoginResponse!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: String!
+}
+
+input CreateActorInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateActorInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateMovieInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateMovieInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePlaylistInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePlaylistInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateGenreInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateGenreInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
