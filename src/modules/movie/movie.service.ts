@@ -37,6 +37,18 @@ export class MovieService {
       .leftJoinAndSelect('movie.actors', 'actor')
       .where('movie.id = :id', { id: movieId })
       .getOne();
+
+    movieWithActors.actors = movieWithActors.actors.map(actor => {
+      if (actor.profile_path === null) {
+        actor.profile_path = "";
+      }
+      return actor;
+    })
+
+    movieWithActors.actors.sort((a, b) => {
+      return a.order - b.order;
+    })
+
     return movieWithActors.actors;
   }
 }
