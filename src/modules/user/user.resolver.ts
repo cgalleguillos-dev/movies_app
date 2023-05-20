@@ -1,10 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from 'src/entities';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ProfileUserDto } from './dto/profile-user.dto';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -35,4 +36,13 @@ export class UserResolver {
   removeUser(@Args('id') id: string) {
     return this.userService.remove(id);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => User, { name: 'profile' })
+  async profile(@Context() context): Promise<ProfileUserDto> {
+    const userId = context.req.user.id;
+    return await this.userService.findOne(userId);
+  }
+
+
 }
