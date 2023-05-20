@@ -62,6 +62,7 @@ type LoginResponse {
 type Query {
   users: [User!]!
   usersById(id: String!): User!
+  profile: User!
   actors: [Actor!]!
   actor(id: Int!): Actor!
   movies: [Movie!]!
