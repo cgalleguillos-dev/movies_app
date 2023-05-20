@@ -32,3 +32,8 @@ export class SignUpInput {
     @Field()
     name: string;
 }
+
+export interface JwtPayload {
+    email: string;
+    name: string;
+}

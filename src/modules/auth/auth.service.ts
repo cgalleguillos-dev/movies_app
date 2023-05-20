@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities';
 import { Repository } from 'typeorm';
-import { LoginInput, SignUpInput } from './dto/auth.dto';
+import { JwtPayload, LoginInput, SignUpInput } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -26,7 +26,6 @@ export class AuthService {
         if (!user.validatePassword(loginInput.password)) {
             throw new Error('Invalid Credentials');
         }
-        console.log(process.env.JWT_SECRET)
         const token = this.jwtService.sign(user.getInfoToToken(), { expiresIn: '1d', secret: process.env.JWT_SECRET });
         return {
             token: token,
@@ -54,6 +53,17 @@ export class AuthService {
         }
         const user = this.userRepository.create(signUpInput);
         await this.userRepository.save(user);
+        return user;
+    }
+
+    async validateUser(payload: JwtPayload): Promise<User> {
+        const user = await this.userRepository.findOne({
+            where: {
+                email: payload.email
+            }
+        });
+
+        if (!user) return null;
         return user;
     }
 }
