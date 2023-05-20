@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Actor {
+  id: Int!
+  adult: Boolean!
+  gender: Float!
+  known_for_department: String!
+  name: String!
+  original_name: String!
+  popularity: Float!
+  profile_path: String!
+  cast_id: Float!
+  character: String!
+  credit_id: String!
+  order: Float!
+}
+
+type Genre {
+  id: Float!
+  name: String!
+}
+
+type Movie {
+  id: Float!
+  adult: Boolean!
+  backdrop_path: String!
+  genres: [Genre!]!
+  original_language: String!
+  original_title: String!
+  overview: String!
+  popularity: Float!
+  poster_path: String!
+  release_date: String!
+  title: String!
+  video: Boolean!
+  vote_average: Float!
+  vote_count: Int!
+  actors: [Actor!]!
+}
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  password: String!
+  playlists: [Playlist!]!
+}
+
+type Playlist {
+  id: String!
+  title: String!
+  description: String!
+}
+
+type LoginResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  users: [User!]!
+  usersById(id: String!): User!
+  actors: [Actor!]!
+  actor(id: Int!): Actor!
+  movies: [Movie!]!
+  getMovieByID(id: Int!): Movie!
+  playlist(id: Int!): Playlist!
+  genres: [Genre!]!
+  genre(id: Int!): Genre!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  createPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
+  updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
+  removePlaylist(id: Int!): Playlist!
+  login(loginInput: LoginInput!): LoginResponse!
+  refreshToken(token: String!): LoginResponse!
+  signup(signUpInput: SignUpInput!): User!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: String!
+}
+
+input CreatePlaylistInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePlaylistInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  name: String!
+}

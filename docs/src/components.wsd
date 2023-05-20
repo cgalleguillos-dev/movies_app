@@ -1,0 +1,27 @@
+@startuml components
+title Components - Movies Project
+left to right direction
+frame "Movies Project" {
+    frame "Docker Client" {
+        component "NextJS" as nextjs {
+            [ReactJS]
+        }
+
+        [TailwindCSS]
+        
+    }
+    frame "Docker Compose Backend" {
+        component "GraphQL API" as graphql {
+            [NestJS]
+            [TypeORM]
+        }
+        database database as db1 <<Postgres>>
+    }
+}
+
+[TypeORM] <..> db1
+[NestJS] .> [TypeORM]
+[ReactJS] <..> graphql: JSON
+nextjs ..> [TailwindCSS]: USE
+@enduml
+```
