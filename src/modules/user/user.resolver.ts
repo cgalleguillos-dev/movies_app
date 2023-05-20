@@ -44,5 +44,4 @@ export class UserResolver {
     return await this.userService.findOne(userId);
   }
 
-
 }
