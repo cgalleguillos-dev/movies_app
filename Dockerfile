@@ -8,11 +8,11 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 3000
+EXPOSE 3005
 
 # postgres
 ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=abcd1234
+ENV POSTGRES_PASSWORD=postgres
 ENV POSTGRES_DB=moviesdb
 
 RUN apt-get update && \
@@ -26,5 +26,9 @@ RUN /etc/init.d/postgresql start && \
     /etc/init.d/postgresql stop
 
 USER root
+
+
+# run the migrations
+RUN npm run m:r
 
 CMD [ "npm", "run", "start" ]

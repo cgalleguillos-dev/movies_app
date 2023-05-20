@@ -5,20 +5,18 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: abcd1234
-      POSTGRES_DB: moviesdb
+      POSTGRES_PASSWORD: -V4c3x2z1
+      POSTGRES_DB: moviedb
   api:
     build: .
+    container_name: api
     ports:
-      - '3000:3000'
+      - '3005:3005'
     depends_on:
       - db
     environment:
-      DATABASE_HOST: db
+      DATABASE_HOST: localhost
       DATABASE_PORT: 5432
       DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: abcd1234
-      DATABASE_NAME: moviesdb
-
-    volumes:
-      - ./src:/usr/src/app/src
+      DATABASE_PASSWORD: -V4c3x2z1
+      DATABASE_NAME: moviedb
