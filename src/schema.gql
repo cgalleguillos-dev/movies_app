@@ -52,6 +52,8 @@ type Playlist {
   id: String!
   title: String!
   description: String!
+  movies: [Movie!]!
+  user: User!
 }
 
 type LoginResponse {

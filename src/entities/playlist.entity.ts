@@ -18,12 +18,16 @@ export class Playlist {
   @Field()
   description: string;
 
-  // @Field()
+  @Field(
+    type => [Movie],
+  )
   @ManyToMany(() => Movie)
   @JoinTable()
   movies: Movie[];
 
-  // @Field()
+  @Field(
+    type => User,
+  )
   @ManyToOne(() => User, user => user.playlists)
   @JoinTable()
   user: User;
