@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { PlaylistResolver } from './playlist.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Playlist } from 'src/entities';
+import { Movie, Playlist, User } from 'src/entities';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Playlist])],
+  imports: [TypeOrmModule.forFeature([Playlist, User, Movie])],
   providers: [PlaylistResolver, PlaylistService]
 })
 export class PlaylistModule { }
