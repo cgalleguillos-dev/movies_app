@@ -81,6 +81,7 @@ type Mutation {
   addPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
   insertMoviePlaylist(insertMoviePlaylistInput: InsertMoviePlaylistInput!): Playlist!
   updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
+  removePlaylist(id: String!): Playlist!
   login(loginInput: LoginInput!): LoginResponse!
   refreshToken(token: String!): LoginResponse!
   signup(signUpInput: SignUpInput!): User!

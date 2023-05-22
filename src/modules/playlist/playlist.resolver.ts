@@ -36,4 +36,10 @@ export class PlaylistResolver {
   async updatePlaylist(@Context() context, @Args('updatePlaylistInput') updatePlaylistInput: UpdatePlaylistInput) {
     return await this.playlistService.updatePlaylist(updatePlaylistInput);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Playlist, { name: 'removePlaylist' })
+  async removePlaylist(@Context() context, @Args('id', { type: () => String }) id: string) {
+    return await this.playlistService.removePlaylist(id);
+  }
 }
