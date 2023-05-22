@@ -21,7 +21,7 @@ export class PlaylistService {
 
     let movies: Movie[];
     if (moviesIds) {
-      const movies = await this.movieRepository.find({ where: moviesIds.map(id => ({ id })) });
+      movies = await this.movieRepository.find({ where: moviesIds.map(id => ({ id })) });
     }
     const playlistData = {
       title: createPlaylistInput.title,
@@ -71,5 +71,13 @@ export class PlaylistService {
     }
 
     return await this.playlistRepository.save(playlist);
+  }
+
+  async removePlaylist(id: string) {
+    const playlist = await this.playlistRepository.findOne({
+      where: { id },
+      relations: ['movies'],
+    });
+    return await this.playlistRepository.remove(playlist);
   }
 }
