@@ -10,7 +10,7 @@ ConfigModule.forRoot({
     load: [baseConfig]
 })
 
-export const DataSourceConfig: DataSourceOptions = {
+const DatabaseOptions: DataSourceOptions = {
     type: process.env.TYPEORM_CONNECTION as any,
     host: process.env.TYPEORM_HOST,
     port: parseInt(process.env.TYPEORM_PORT, 10),
@@ -23,4 +23,26 @@ export const DataSourceConfig: DataSourceOptions = {
     migrations: [__dirname + '/../migrations/*{.ts,.js}'],
 }
 
-export const AppDS = new DataSource(DataSourceConfig);
+const TestDatabaseOptions: DataSourceOptions = {
+    type: 'sqlite',
+    database: ':memory:',
+    dropSchema: true,
+    entities: [User, Actor, Movie, Playlist, Genre],
+    synchronize: true,
+    logging: false,
+    migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+}
+class DataSourceFactory {
+    dataSourceOptions: DataSourceOptions;
+
+    private constructor() { }
+
+    static getDataSourceOptions(nodeEnv: string): DataSourceOptions {
+        const isTestEnvironment = nodeEnv === 'test';
+        return isTestEnvironment ? TestDatabaseOptions : DatabaseOptions;
+    }
+}
+
+const DataSourceConfig = DataSourceFactory.getDataSourceOptions(process.env.NODE_ENV);
+
+export { DataSourceConfig };

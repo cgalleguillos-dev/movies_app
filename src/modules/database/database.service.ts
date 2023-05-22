@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import { Actor, Genre, Movie } from 'src/entities';
+import { Actor, Genre, Movie } from '../../entities';
 import { Repository } from 'typeorm';
 
 

@@ -3,8 +3,9 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('baseConfig', () => {
     return {
         database: {
+            type: process.env.TYPEORM_CONNECTION as any,
             host: process.env.TYPEORM_HOST,
-            port: process.env.TYPEORM_PORT,
+            port: parseInt(process.env.TYPEORM_PORT, 10),
             user: process.env.TYPEORM_USERNAME,
             pass: process.env.TYPEORM_PASSWORD,
             database: process.env.TYPEORM_DATABASE,

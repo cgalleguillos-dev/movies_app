@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Repository } from 'typeorm';
-import { User } from 'src/entities';
+import { User } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfileUserDto } from './dto/profile-user.dto';
 

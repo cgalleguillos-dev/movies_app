@@ -1,5 +1,5 @@
 import { ObjectType, Field, InputType } from "@nestjs/graphql";
-import { User } from "src/entities";
+import { User } from "../../../entities";
 
 @InputType()
 export class LoginInput {

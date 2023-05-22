@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePlaylistInput } from './dto/create-playlist.input';
 import { UpdatePlaylistInput } from './dto/update-playlist.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Movie, Playlist, User } from 'src/entities';
+import { Movie, Playlist, User } from '../../entities';
 import { Repository } from 'typeorm';
 import { InsertMoviePlaylistInput } from './dto/insert-movie-playlist.input';
 
