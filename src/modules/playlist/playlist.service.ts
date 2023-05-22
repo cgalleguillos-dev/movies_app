@@ -54,4 +54,22 @@ export class PlaylistService {
       relations: ['movies'],
     });
   }
+  async updatePlaylist(updatePlaylistInput: UpdatePlaylistInput) {
+    const { id, title, description, moviesIds } = updatePlaylistInput;
+    const playlist = await this.playlistRepository.findOne({
+      where: { id },
+      relations: ['movies'],
+    });
+
+    playlist.title = title;
+    playlist.description = description;
+    if (moviesIds) {
+      const movies = await this.movieRepository.find({
+        where: moviesIds.map(id => ({ id })),
+      });
+      playlist.movies = movies;
+    }
+
+    return await this.playlistRepository.save(playlist);
+  }
 }
