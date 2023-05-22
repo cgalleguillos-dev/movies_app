@@ -1,7 +1,7 @@
 import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { GenreService } from './genre.service';
 
-import { Genre } from 'src/entities';
+import { Genre } from '../../entities';
 
 @Resolver(() => Genre)
 export class GenreResolver {
