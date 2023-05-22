@@ -69,7 +69,7 @@ type Query {
   actor(id: Int!): Actor!
   movies: [Movie!]!
   getMovieByID(id: Int!): Movie!
-  playlist(id: Int!): Playlist!
+  playlistsByUser: [Playlist!]!
   genres: [Genre!]!
   genre(id: Int!): Genre!
 }
@@ -78,9 +78,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
-  createPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
-  updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
-  removePlaylist(id: Int!): Playlist!
+  addPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
+  insertMoviePlaylist(insertMoviePlaylistInput: InsertMoviePlaylistInput!): Playlist!
   login(loginInput: LoginInput!): LoginResponse!
   refreshToken(token: String!): LoginResponse!
   signup(signUpInput: SignUpInput!): User!
@@ -98,14 +97,14 @@ input UpdateUserInput {
 }
 
 input CreatePlaylistInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  description: String!
+  moviesIds: [Int!]
 }
 
-input UpdatePlaylistInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input InsertMoviePlaylistInput {
+  playlistId: String!
+  moviesIds: [Int!]!
 }
 
 input LoginInput {
