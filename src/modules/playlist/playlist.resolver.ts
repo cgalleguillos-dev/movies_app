@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { PlaylistService } from './playlist.service';
-import { Playlist } from 'src/entities';
+import { Playlist } from '../../entities';
 import { CreatePlaylistInput } from './dto/create-playlist.input';
 import { UpdatePlaylistInput } from './dto/update-playlist.input';
 import { Body, UseGuards } from '@nestjs/common';
