@@ -30,4 +30,10 @@ export class PlaylistResolver {
     const userId = context.req.user.id;
     return await this.playlistService.findPlaylistsByUser(userId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Playlist, { name: 'updatePlaylist' })
+  async updatePlaylist(@Context() context, @Args('updatePlaylistInput') updatePlaylistInput: UpdatePlaylistInput) {
+    return await this.playlistService.updatePlaylist(updatePlaylistInput);
+  }
 }
