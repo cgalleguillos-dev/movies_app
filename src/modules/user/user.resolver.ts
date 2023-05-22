@@ -11,11 +11,6 @@ import { ProfileUserDto } from './dto/profile-user.dto';
 export class UserResolver {
   constructor(private readonly userService: UserService) { }
 
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Query(() => [User], { name: 'users' })
   async findAll() {
@@ -23,18 +18,15 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'usersById' })
-  findOne(@Args('id') id: string) {
-    return this.userService.findOne(id);
+  async findOne(@Args('id') id: string) {
+    return await this.userService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  removeUser(@Args('id') id: string) {
-    return this.userService.remove(id);
+  async updateUser(@Context() context, @Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    const userId = context.req.user.id;
+    return await this.userService.update(userId, updateUserInput);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -75,9 +75,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
   addPlaylist(createPlaylistInput: CreatePlaylistInput!): Playlist!
   insertMoviePlaylist(insertMoviePlaylistInput: InsertMoviePlaylistInput!): Playlist!
   updatePlaylist(updatePlaylistInput: UpdatePlaylistInput!): Playlist!
@@ -87,15 +85,10 @@ type Mutation {
   signup(signUpInput: SignUpInput!): User!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: String!
+  name: String!
+  email: String!
+  password: String!
 }
 
 input CreatePlaylistInput {

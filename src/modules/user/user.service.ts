@@ -12,10 +12,6 @@ export class UserService {
   private userRepository: Repository<User>
   ) { }
 
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
-  }
-
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
@@ -34,11 +30,16 @@ export class UserService {
     }
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUserInput: UpdateUserInput) {
+    const user = await this.userRepository.findOne({
+      where: { id: id }
+    });
+    if (!user) {
+      throw new Error(`User not found`);
+    }
+    user.name = updateUserInput.name;
+    user.email = updateUserInput.email;
+    user.password = updateUserInput.password;
+    return await this.userRepository.save(user);
   }
 }
