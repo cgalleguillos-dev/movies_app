@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { MovieService } from './movie.service';
-import { Actor, Genre, Movie } from 'src/entities';
+import { Actor, Genre, Movie } from '../../entities';
 
 @Resolver(() => Movie)
 export class MovieResolver {

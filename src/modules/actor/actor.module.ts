@@ -6,6 +6,7 @@ import { Actor } from '../../entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Actor])],
-  providers: [ActorResolver, ActorService]
+  providers: [ActorResolver, ActorService],
+  exports: [ActorService]
 })
 export class ActorModule { }

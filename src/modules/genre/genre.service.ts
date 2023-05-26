@@ -17,4 +17,8 @@ export class GenreService {
       where: { id }
     })
   }
+
+  async save(genres: Genre[]) {
+    return await this.genreRepository.save(genres);
+  }
 }
