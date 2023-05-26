@@ -2,26 +2,28 @@ import { Injectable } from '@nestjs/common';
 import { CreatePlaylistInput } from './dto/create-playlist.input';
 import { UpdatePlaylistInput } from './dto/update-playlist.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Movie, Playlist, User } from '../../entities';
+import { Movie, Playlist } from '../../entities';
 import { Repository } from 'typeorm';
 import { InsertMoviePlaylistInput } from './dto/insert-movie-playlist.input';
+import { MovieService } from '../movie/movie.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PlaylistService {
 
   constructor(
     @InjectRepository(Playlist) private playlistRepository: Repository<Playlist>,
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Movie) private movieRepository: Repository<Movie>,
+    private usersService: UserService,
+    private movieService: MovieService,
   ) { }
 
   async addPlaylist(userId: string, createPlaylistInput: CreatePlaylistInput) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.usersService.findOne(userId);
     const { moviesIds } = createPlaylistInput;
 
     let movies: Movie[];
     if (moviesIds) {
-      movies = await this.movieRepository.find({ where: moviesIds.map(id => ({ id })) });
+      movies = await this.movieService.findMoviesByMoviesIds(moviesIds);
     }
     const playlistData = {
       title: createPlaylistInput.title,
@@ -39,9 +41,7 @@ export class PlaylistService {
       where: { id: playlistId },
       relations: ['movies'],
     });
-    const movies = await this.movieRepository.find({
-      where: moviesIds.map(id => ({ id })),
-    });
+    const movies = await this.movieService.findMoviesByMoviesIds(moviesIds);
 
     playlist.movies = [...playlist.movies, ...movies];
 
@@ -54,6 +54,7 @@ export class PlaylistService {
       relations: ['movies'],
     });
   }
+
   async updatePlaylist(updatePlaylistInput: UpdatePlaylistInput) {
     const { id, title, description, moviesIds } = updatePlaylistInput;
     const playlist = await this.playlistRepository.findOne({
@@ -64,9 +65,7 @@ export class PlaylistService {
     playlist.title = title;
     playlist.description = description;
     if (moviesIds) {
-      const movies = await this.movieRepository.find({
-        where: moviesIds.map(id => ({ id })),
-      });
+      const movies = await this.movieService.findMoviesByMoviesIds(moviesIds);
       playlist.movies = movies;
     }
 
@@ -78,6 +77,9 @@ export class PlaylistService {
       where: { id },
       relations: ['movies'],
     });
+    if (!playlist) {
+      throw new Error(`Playlist not found`);
+    }
     return await this.playlistRepository.remove(playlist);
   }
 }

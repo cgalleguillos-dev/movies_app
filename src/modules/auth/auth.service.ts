@@ -1,25 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities';
-import { Repository } from 'typeorm';
 import { JwtPayload, LoginInput, SignUpInput } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
 
     constructor(
-        @InjectRepository(User) private userRepository: Repository<User>,
+        private usersService: UserService,
         private jwtService: JwtService
     ) { }
 
     async login(loginInput: LoginInput) {
-        const user = await this.userRepository.findOne({
-            where: {
-                email: loginInput.email
-            }
-
-        });
+        const user = await this.usersService.findByEmail(loginInput.email);
         if (!user) {
             throw new Error('Invalid Credentials');
         }
@@ -43,27 +37,17 @@ export class AuthService {
     }
 
     async signup(signUpInput: SignUpInput): Promise<User> {
-        const userExist = await this.userRepository.findOne({
-            where: {
-                email: signUpInput.email
-            }
-        });
+        const userExist = await this.usersService.findByEmail(signUpInput.email);
+
         if (userExist) {
             throw new Error('Invalid Credentials');
         }
-        const user = this.userRepository.create(signUpInput);
-        await this.userRepository.save(user);
-        return user;
+        return await this.usersService.create(signUpInput);
     }
 
     async validateUser(payload: JwtPayload): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: {
-                email: payload.email
-            }
-        });
-
-        if (!user) return null;
+        const user = await this.usersService.findByEmail(payload.email);
+        if (!user) throw new Error('Invalid User');
         return user;
     }
 }

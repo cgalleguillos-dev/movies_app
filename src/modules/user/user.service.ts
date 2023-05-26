@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Repository } from 'typeorm';
@@ -8,8 +8,7 @@ import { ProfileUserDto } from './dto/profile-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User)
-  private userRepository: Repository<User>
+  constructor(@InjectRepository(User) private userRepository: Repository<User>
   ) { }
 
   async findAll(): Promise<User[]> {
@@ -23,11 +22,7 @@ export class UserService {
       }
     );
 
-    return {
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    }
+    return user;
   }
 
   async update(id: string, updateUserInput: UpdateUserInput) {
@@ -40,6 +35,26 @@ export class UserService {
     user.name = updateUserInput.name;
     user.email = updateUserInput.email;
     user.password = updateUserInput.password;
+    return await this.userRepository.save(user);
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: email
+      }
+    });
+
+    if (!user) return null;
+
+    return user;
+  }
+
+  async create(createUserInput: CreateUserInput) {
+    const exists = await this.findByEmail(createUserInput.email);
+    if (exists) throw new Error('User already exists');
+
+    const user = this.userRepository.create(createUserInput);
     return await this.userRepository.save(user);
   }
 }

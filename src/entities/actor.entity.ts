@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany } from 'typeorm';
 import { Movie } from './movie.entity';
 
 @Entity()
@@ -64,4 +64,11 @@ export class Actor {
   @Field()
   @Column()
   order: number;
+
+  @Field(
+    type => [Movie],
+    { nullable: true }
+  )
+  @ManyToMany(() => Movie, { cascade: true })
+  movies: Movie[];
 }

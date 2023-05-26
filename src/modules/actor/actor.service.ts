@@ -14,7 +14,21 @@ export class ActorService {
 
   async findOne(id: number) {
     return await this.actorRepository.findOne({
-      where: { id }
+      where: { id: id }
     })
+  }
+
+  async findMany(uniqueActorIds: number[]) {
+    return await this.actorRepository.find({
+      where: uniqueActorIds.map(id => ({ id: id }))
+    })
+  }
+
+  async saveMany(actors: Actor[]) {
+    return await this.actorRepository.save(actors);
+  }
+
+  async saveOne(actor: Actor) {
+    return await this.actorRepository.save(actor);
   }
 }

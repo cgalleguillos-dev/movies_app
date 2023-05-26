@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from '../../entities';
-import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -35,5 +34,4 @@ export class UserResolver {
     const userId = context.req.user.id;
     return await this.userService.findOne(userId);
   }
-
 }
