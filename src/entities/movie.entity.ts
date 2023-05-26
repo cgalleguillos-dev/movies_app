@@ -1,7 +1,6 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 import { Actor } from './actor.entity';
-import { Playlist } from './playlist.entity';
 import { Genre } from './genre.entity';
 
 @Entity()
@@ -19,8 +18,14 @@ export class Movie {
   @Column()
   adult: boolean;
 
-  @Field()
-  @Column()
+  @Field({
+    nullable: true
+  })
+  @Column(
+    {
+      nullable: true
+    }
+  )
   backdrop_path: string;
 
   @Field(
@@ -50,12 +55,20 @@ export class Movie {
   )
   popularity: number;
 
-  @Field()
-  @Column()
+  @Field({
+    nullable: true
+  })
+  @Column({
+    nullable: true
+  })
   poster_path: string;
 
-  @Field()
-  @Column()
+  @Field({
+    nullable: true
+  })
+  @Column({
+    nullable: true
+  })
   release_date: string;
 
   @Field()
@@ -85,19 +98,7 @@ export class Movie {
   @Field(
     type => [Actor],
   )
-  @ManyToMany(() => Actor)
-  @JoinTable({
-    joinColumn: {
-      name: 'movie',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'actor',
-      referencedColumnName: 'id'
-    }
-  })
+  @ManyToMany(() => Actor, { cascade: true })
+  @JoinTable()
   actors: Actor[];
-
-  genre_ids: number[];
-  actor_ids: number[];
 }

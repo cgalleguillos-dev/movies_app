@@ -1,6 +1,5 @@
 import { ObjectType, Field } from "@nestjs/graphql";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
-import { Movie } from "./movie.entity";
+import { Entity, Column } from "typeorm";
 
 @Entity()
 @ObjectType()
