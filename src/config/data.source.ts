@@ -46,3 +46,5 @@ class DataSourceFactory {
 const DataSourceConfig = DataSourceFactory.getDataSourceOptions(process.env.NODE_ENV);
 
 export { DataSourceConfig };
+
+export const AppDS = new DataSource(DataSourceConfig)
