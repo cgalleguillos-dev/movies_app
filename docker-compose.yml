@@ -1,22 +1,27 @@
-version: '3'
+version: "3"
 services:
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: -V4c3x2z1
-      POSTGRES_DB: moviedb
-  api:
+  app:
     build: .
-    container_name: api
-    ports:
-      - '3005:3005'
     depends_on:
-      - db
+      - ptais-db
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+  ptais-db:
+    image: postgres
+    container_name: ptais-db
+    restart: always
+    ports:
+      - "5433:5432"
     environment:
-      DATABASE_HOST: localhost
-      DATABASE_PORT: 5432
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: -V4c3x2z1
-      DATABASE_NAME: moviedb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=-V4c3x2z1
+      - POSTGRES_DB=mvdb
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
