@@ -6,7 +6,8 @@ test
 .prettierrc.js
 .dockerignore
 Dockerfile
-docer-compose.yml
+docker-compose.yml
 package-lock.json
 README.md
+docs
 ```
