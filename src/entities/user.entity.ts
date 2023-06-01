@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Playlist } from './playlist.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity(
   { name: 'users' }
@@ -30,8 +31,13 @@ export class User {
   @OneToMany(() => Playlist, playlist => playlist.user)
   playlists: Playlist[];
 
+  encryptPassword(password: string) {
+    const salt = bcrypt.genSaltSync(10);
+    this.password = bcrypt.hashSync(password, salt);
+  }
+
   validatePassword(password: string): boolean {
-    return this.password === password;
+    return bcrypt.compareSync(password, this.password);
   }
 
   getInfoToToken() {
