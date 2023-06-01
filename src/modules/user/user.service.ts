@@ -55,6 +55,7 @@ export class UserService {
     if (exists) throw new Error('User already exists');
 
     const user = this.userRepository.create(createUserInput);
+    user.encryptPassword(createUserInput.password);
     return await this.userRepository.save(user);
   }
 }

@@ -42,6 +42,7 @@ export class AuthService {
         if (userExist) {
             throw new Error('Invalid Credentials');
         }
+
         return await this.usersService.create(signUpInput);
     }
 
