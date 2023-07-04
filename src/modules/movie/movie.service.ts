@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from '../../entities';
 import { Repository } from 'typeorm';
+import { FetchMoviesArgs } from './dto/fetch-movies.input';
 
 @Injectable()
 export class MovieService {
@@ -10,9 +11,19 @@ export class MovieService {
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
   ) { }
 
-  async findAll() {
+
+  async getCount() {
+    return await this.movieRepository.count();
+  }
+
+  async findAll(args: FetchMoviesArgs = {
+    skip: 0,
+    take: 10
+  }) {
     return await this.movieRepository.find({
-      relations: ['genres']
+      relations: ['genres'],
+      take: args.take,
+      skip: args.skip
     });
   }
 
@@ -70,5 +81,17 @@ export class MovieService {
 
   async saveOne(movie: Movie) {
     return await this.movieRepository.save(movie);
+  }
+
+  async searchMovies(query: string) {
+    if (!query) {
+      return [];
+    }
+    const movies = this.movieRepository
+      .createQueryBuilder('movie')
+      .where('movie.title ILIKE :query', { query: `%${query}%` })
+      .getMany();
+
+    return movies;
   }
 }

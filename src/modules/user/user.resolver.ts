@@ -10,7 +10,7 @@ import { ProfileUserDto } from './dto/profile-user.dto';
 export class UserResolver {
   constructor(private readonly userService: UserService) { }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Query(() => [User], { name: 'users' })
   async findAll() {
     return await this.userService.findAll();

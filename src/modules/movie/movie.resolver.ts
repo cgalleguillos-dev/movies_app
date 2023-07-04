@@ -1,6 +1,7 @@
 import { Resolver, Query, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { MovieService } from './movie.service';
 import { Actor, Genre, Movie } from '../../entities';
+import { FetchMoviesArgs } from './dto/fetch-movies.input';
 
 @Resolver(() => Movie)
 export class MovieResolver {
@@ -9,8 +10,18 @@ export class MovieResolver {
   ) { }
 
   @Query(() => [Movie], { name: 'movies' })
-  async getMovies() {
-    return await this.movieService.findAll();
+  async getMovies(@Args() args: FetchMoviesArgs) {
+    return await this.movieService.findAll(args);
+  }
+
+  @Query(() => [Movie])
+  async searchMovies(@Args('query') query: string): Promise<Movie[]> {
+    return await this.movieService.searchMovies(query);
+  }
+
+  @Query(() => Int, { name: 'moviesCount' })
+  async getCount() {
+    return await this.movieService.getCount();
   }
 
   @Query(() => Movie, { name: 'getMovieByID' })
