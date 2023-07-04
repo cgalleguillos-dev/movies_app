@@ -68,7 +68,9 @@ type Query {
   profile: User!
   actors: [Actor!]!
   actor(id: Int!): Actor!
-  movies: [Movie!]!
+  movies(skip: Int, take: Int): [Movie!]!
+  searchMovies(query: String!): [Movie!]!
+  moviesCount: Int!
   getMovieByID(id: Int!): Movie!
   playlistsByUser: [Playlist!]!
   genres: [Genre!]!
